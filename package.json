@@ -1,0 +1,19 @@
+{
+  "name": "duncflix-prime-api",
+  "version": "1.0.0",
+  "description": "API for Duncan's movie database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duncansanderson/duncflix-prime-api.git"
+  },
+  "author": "Duncan Sanderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duncansanderson/duncflix-prime-api/issues"
+  },
+  "homepage": "https://github.com/duncansanderson/duncflix-prime-api#readme"
+}
