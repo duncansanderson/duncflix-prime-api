@@ -2,8 +2,10 @@
   "name": "duncflix-prime-api",
   "version": "1.0.0",
   "description": "API for Duncan's movie database",
-  "main": "index.js",
+  "main": "start.js",
+  "type": "module",
   "scripts": {
+    "start": "node ./start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/duncansanderson/duncflix-prime-api/issues"
   },
-  "homepage": "https://github.com/duncansanderson/duncflix-prime-api#readme"
+  "homepage": "https://github.com/duncansanderson/duncflix-prime-api#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
