@@ -20,7 +20,6 @@ model User {
 
 model Movie {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug        String   @unique
   actors      String
   director    String
   genre       String

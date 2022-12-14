@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-// import router from './router';
+import router from './router';
 import { createNewUser, signin } from './handlers/user';
 import { protect } from './modules/auth';
 
@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'hello' });
 });
 
-// app.use('/api', router);
+app.use('/api', router);
 
 app.use('/user', protect, createNewUser);
 app.use('/signin', signin);
