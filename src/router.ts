@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getMovies, createNewMovie } from './handlers/movie';
+import { getMovies, getOneMovie, createNewMovie } from './handlers/movie';
 import { protect } from './modules/auth';
 import { body } from 'express-validator';
 import { handleInputErrors } from './modules/middleware';
@@ -12,7 +12,7 @@ const router = new Router();
 router.get('/movie', getMovies);
 
 // Get one movie
-
+router.get('/movie/:id', getOneMovie);
 // Update one movie.
 
 // Add one movie.

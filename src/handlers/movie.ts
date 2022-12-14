@@ -4,7 +4,18 @@ import prisma from "../db";
 export const getMovies = async (req, res) => {
     const movies = await prisma.movie.findMany();
 
-    res.json({ data: movies });
+    res.json({ movies });
+};
+
+// Get one movie.
+export const getOneMovie = async (req, res) => {
+    const movie = await prisma.movie.findUnique({
+        where: {
+            id: req.params.id,
+        }
+    });
+
+    res.json({ movie });
 };
 
 // Create a movie.
@@ -29,5 +40,5 @@ export const createNewMovie = async (req, res) => {
         },
     });
 
-    res.json({ data: movie });
+    res.json({ movie });
 };

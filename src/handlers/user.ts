@@ -5,7 +5,7 @@ import { createJWT, hashPassword, comparePasswords } from '../modules/auth';
 export const getUsers = async (req, res) => {
     const users = await prisma.user.findMany();
 
-    res.json({ data: users });
+    res.json({ users });
 };
 
 // Create a user.
