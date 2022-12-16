@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getMovies, getOneMovie, createNewMovie, deleteMovie } from './handlers/movie';
+import { getMovies, getOneMovie, createNewMovie, deleteMovie, updateMovie } from './handlers/movie';
 import { protect } from './modules/auth';
 import { body } from 'express-validator';
 import { handleInputErrors } from './modules/middleware';
@@ -13,7 +13,6 @@ router.get('/movie', getMovies);
 
 // Get one movie
 router.get('/movie/:id', getOneMovie);
-// Update one movie.
 
 // Add one movie.
 router.post('/movie',
@@ -34,6 +33,27 @@ router.post('/movie',
     body('formats').isArray(),
     handleInputErrors,
     createNewMovie
+);
+
+// Update one movie.
+router.put('/movie/:id',
+    protect,
+    body('actors').optional().isString(),
+    body('director').optional().isString(),
+    body('genre').optional().isString(),
+    body('plot').optional().isString(),
+    body('poster').optional().isString(),
+    body('rated').optional().isString(),
+    body('ratings').optional().isArray(),
+    body('released').optional().isString(),
+    body('runtime').optional().isString(),
+    body('title').optional().isString(),
+    body('type').optional().isString(),
+    body('year').optional().isString(),
+    body('writer').optional().isString(),
+    body('formats').optional().isArray(),
+    handleInputErrors,
+    updateMovie
 );
 
 // Delete one movie.

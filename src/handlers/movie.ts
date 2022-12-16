@@ -42,11 +42,25 @@ export const createNewMovie = async (req, res) => {
     res.json({ movie });
 };
 
+// Update one movie.
+export const updateMovie = async (req, res) => {
+    const movie = await prisma.movie.update({
+        where: {
+            id: req.params.id,
+        },
+        data: req.body,
+    });
+
+    res.json({ movie });
+};
+
 // Delete one movie.
 export const deleteMovie = async (req, res) => {
 
     const movie = await prisma.movie.delete({
-        where: { id: req.params.id },
+        where: {
+            id: req.params.id
+        },
     });
 
     res.json({ movie });
