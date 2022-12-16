@@ -36,8 +36,17 @@ export const createNewMovie = async (req, res) => {
             year: req.body.year,
             writer: req.body.writer,
             formats: req.body.formats,
-            belongsToId: req.user.id,
         },
+    });
+
+    res.json({ movie });
+};
+
+// Delete one movie.
+export const deleteMovie = async (req, res) => {
+
+    const movie = await prisma.movie.delete({
+        where: { id: req.params.id },
     });
 
     res.json({ movie });

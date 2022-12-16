@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getMovies, getOneMovie, createNewMovie } from './handlers/movie';
+import { getMovies, getOneMovie, createNewMovie, deleteMovie } from './handlers/movie';
 import { protect } from './modules/auth';
 import { body } from 'express-validator';
 import { handleInputErrors } from './modules/middleware';
@@ -37,5 +37,6 @@ router.post('/movie',
 );
 
 // Delete one movie.
+router.delete('/movie/:id', protect, deleteMovie);
 
 export default router;

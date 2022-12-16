@@ -15,7 +15,6 @@ model User {
   createdAt DateTime @default(now())
   username  String   @unique
   password  String
-  movies    Movie[]
 }
 
 model Movie {
@@ -34,6 +33,4 @@ model Movie {
   year        String
   writer      String
   formats     String[]
-  belongsToId String
-  belongsTo   User     @relation(fields: [belongsToId], references: [id])
 }
