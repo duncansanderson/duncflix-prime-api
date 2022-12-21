@@ -23,10 +23,14 @@ export const createNewMovie = async (req, res) => {
     const movie = await prisma.movie.create({
         data: {
             actors: req.body.actors,
+            backdroppath: req.body.backdroppath,
             director: req.body.director,
+            formats: req.body.formats,
             genre: req.body.genre,
+            imdbid: req.body.imdbid,
             plot: req.body.plot,
             poster: req.body.poster,
+            posterpath: req.body.posterpath,
             rated: req.body.rated,
             ratings: req.body.ratings,
             released: req.body.released,
@@ -35,7 +39,6 @@ export const createNewMovie = async (req, res) => {
             type: req.body.type,
             year: req.body.year,
             writer: req.body.writer,
-            formats: req.body.formats,
         },
     });
 

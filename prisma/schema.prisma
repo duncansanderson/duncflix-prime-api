@@ -18,19 +18,22 @@ model User {
 }
 
 model Movie {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  actors      String
-  director    String
-  genre       String
-  plot        String
-  poster      String
-  rated       String
-  ratings     String[]
-  released    String
-  runtime     String
-  title       String
-  type        String
-  year        String
-  writer      String
-  formats     String[]
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  actors       String
+  backdroppath String
+  director     String
+  formats      String[]
+  genre        String
+  imdbid       String
+  plot         String
+  poster       String
+  posterpath   String
+  rated        String
+  ratings      Json
+  released     String
+  runtime      String
+  title        String
+  type         String
+  year         String
+  writer       String
 }
