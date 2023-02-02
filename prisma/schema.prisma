@@ -32,7 +32,9 @@ model Movie {
   ratings      Json
   released     String
   runtime      String
+  series       String[]
   title        String
+  totalSeasons String
   type         String
   year         String
   writer       String
