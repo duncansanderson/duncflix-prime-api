@@ -16,7 +16,7 @@ router.get('/movie/:id', getOneMovie);
 
 // Add one movie.
 router.post('/movie',
-    protect,
+    // protect,
     body('actors').isString(),
     body('backdroppath').isString(),
     body('director').isString(),
