@@ -2,25 +2,25 @@ import prisma from "../db";
 
 // Get all movies.
 export const getMovies = async (req, res) => {
-    const movies = await prisma.movie.findMany();
+    const data = await prisma.movie.findMany();
 
-    res.json({ movies });
+    res.json({ data });
 };
 
 // Get one movie.
 export const getOneMovie = async (req, res) => {
-    const movie = await prisma.movie.findUnique({
+    const data = await prisma.movie.findUnique({
         where: {
             id: req.params.id,
         }
     });
 
-    res.json({ movie });
+    res.json({ data });
 };
 
 // Create a movie.
 export const createNewMovie = async (req, res) => {
-    const movie = await prisma.movie.create({
+    const data = await prisma.movie.create({
         data: {
             actors: req.body.actors,
             backdroppath: req.body.backdroppath,
@@ -44,29 +44,29 @@ export const createNewMovie = async (req, res) => {
         },
     });
 
-    res.json({ movie });
+    res.json({ data });
 };
 
 // Update one movie.
 export const updateMovie = async (req, res) => {
-    const movie = await prisma.movie.update({
+    const data = await prisma.movie.update({
         where: {
             id: req.params.id,
         },
         data: req.body,
     });
 
-    res.json({ movie });
+    res.json({ data });
 };
 
 // Delete one movie.
 export const deleteMovie = async (req, res) => {
 
-    const movie = await prisma.movie.delete({
+    const data = await prisma.movie.delete({
         where: {
             id: req.params.id
         },
     });
 
-    res.json({ movie });
+    res.json({ data });
 };
