@@ -42,7 +42,7 @@ router.post('/movie',
 
 // Update one movie.
 router.put('/movie/:id',
-    protect,
+    // protect,
     body('actors').optional().isString(),
     body('backdroppath').optional().isString(),
     body('director').optional().isString(),
@@ -67,6 +67,9 @@ router.put('/movie/:id',
 );
 
 // Delete one movie.
-router.delete('/movie/:id', protect, deleteMovie);
+router.delete('/movie/:id',
+    // protect,
+    deleteMovie
+);
 
 export default router;
