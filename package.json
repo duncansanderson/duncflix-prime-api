@@ -4,6 +4,8 @@
   "description": "API for Duncan's movie database",
   "main": "index.ts",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "test": "jest"
   },
