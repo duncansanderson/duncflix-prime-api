@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getMovies, getOneMovie, createNewMovie, deleteMovie, updateMovie } from './handlers/movie';
+import { getPersons, getOnePerson, createNewPerson, deletePerson, updatePerson } from './handlers/persons';
 import { protect } from './modules/auth';
 import { body } from 'express-validator';
 import { handleInputErrors } from './modules/middleware';
@@ -70,6 +71,38 @@ router.put('/movie/:id',
 router.delete('/movie/:id',
     // protect,
     deleteMovie
+);
+
+/* Persons */
+
+// Get all persons.
+router.get('/person', getPersons);
+
+// Get one person.
+router.get('/person/:id', getOnePerson);
+
+// Add one person.
+router.post('/person',
+    // protect,
+    body('name').isString(),
+    body('imagePath').isString(),
+    handleInputErrors,
+    createNewPerson,
+);
+
+// Update one person.
+router.put('/person/:id',
+    // protect,
+    body('name').optional().isString(),
+    body('imagePath').optional().isString(),
+    handleInputErrors,
+    updatePerson
+);
+
+// Delete one person.
+router.delete('/person/:id',
+    // protect,
+    deletePerson
 );
 
 export default router;
