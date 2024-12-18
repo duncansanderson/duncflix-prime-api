@@ -1,6 +1,19 @@
 import { Router } from 'express';
-import { getMovies, getOneMovie, createNewMovie, deleteMovie, updateMovie } from './handlers/movie';
-import { getPersons, getOnePerson, createNewPerson, deletePerson, updatePerson } from './handlers/persons';
+import {
+    getMovies,
+    getOneMovie,
+    getFeatured,
+    createNewMovie,
+    deleteMovie,
+    updateMovie,
+} from './handlers/movie';
+import {
+    getPersons,
+    getOnePerson,
+    createNewPerson,
+    deletePerson,
+    updatePerson,
+ } from './handlers/persons';
 import { protect } from './modules/auth';
 import { body } from 'express-validator';
 import { handleInputErrors } from './modules/middleware';
@@ -104,5 +117,8 @@ router.delete('/person/:id',
     // protect,
     deletePerson
 );
+
+/* Featured */
+router.get('/featured', getFeatured);
 
 export default router;
