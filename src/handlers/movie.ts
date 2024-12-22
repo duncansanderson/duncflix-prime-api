@@ -90,3 +90,37 @@ export const deleteMovie = async (req, res, next) => {
         next(error);
     }
 };
+
+
+// Get featured movie and tv show.
+export const getFeatured = async (req, res, next) => {
+    try {
+        const all = await prisma.movie.findMany();
+        const movies = await all.filter((item) => item.type === 'movie');
+        const series = await all.filter((item) => item.type === 'series');
+
+        const daysSinceEpoch = Math.floor(Date.now() / 86400000);
+
+        // Set the main featured item.
+        const featuredIndex = daysSinceEpoch % all.length;
+        const featured = all[featuredIndex];
+
+        // Set the featured movie.
+        const movieIndex = daysSinceEpoch % movies.length;
+        const featuredMovie = movies[movieIndex];
+
+        // Set the featured series.
+        const seriesIndex = daysSinceEpoch % series.length;
+        const featuredSeries = series[seriesIndex];
+
+        const data = {
+            featured,
+            featuredMovie,
+            featuredSeries,
+        };
+
+        res.json({ data });
+    } catch (error) {
+        next(error);
+    }
+};
