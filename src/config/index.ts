@@ -1,9 +1,10 @@
+/* eslint-disable ts/no-require-imports */
 import merge from 'lodash.merge';
 
 import env from '../../lib/env';
 
-process.env.NODE_ENV = env.NODE_ENV || 'development';
-const stage = process.env.STAGE || 'local';
+env.NODE_ENV = env.NODE_ENV || 'development';
+const stage = env.STAGE || 'local';
 
 let envConfig;
 

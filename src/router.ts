@@ -1,21 +1,22 @@
+/* eslint-disable antfu/consistent-list-newline */
 import { Router } from 'express';
+import { body } from 'express-validator';
+
 import {
-    getMovies,
-    getOneMovie,
-    getFeatured,
     createNewMovie,
     deleteMovie,
+    getFeatured,
+    getMovies,
+    getOneMovie,
     updateMovie,
 } from './handlers/movie';
 import {
-    getPersons,
-    getOnePerson,
     createNewPerson,
     deletePerson,
+    getOnePerson,
+    getPersons,
     updatePerson,
- } from './handlers/persons';
-import { protect } from './modules/auth';
-import { body } from 'express-validator';
+} from './handlers/persons';
 import { handleInputErrors } from './modules/middleware';
 
 const router = new Router();
@@ -51,7 +52,7 @@ router.post('/movie',
     body('year').isString(),
     body('writer').isString(),
     handleInputErrors,
-    createNewMovie
+    createNewMovie,
 );
 
 // Update one movie.
@@ -76,14 +77,13 @@ router.put('/movie/:id',
     body('type').optional().isString(),
     body('year').optional().isString(),
     body('writer').optional().isString(),
-    handleInputErrors,
-    updateMovie
+    handleInputErrors, updateMovie,
 );
 
 // Delete one movie.
 router.delete('/movie/:id',
     // protect,
-    deleteMovie
+    deleteMovie,
 );
 
 /* Persons */
@@ -95,7 +95,8 @@ router.get('/person', getPersons);
 router.get('/person/:id', getOnePerson);
 
 // Add one person.
-router.post('/person',
+router.post(
+    '/person',
     // protect,
     body('name').isString(),
     body('imagePath').isString(),
@@ -104,18 +105,20 @@ router.post('/person',
 );
 
 // Update one person.
-router.put('/person/:id',
+router.put(
+    '/person/:id',
     // protect,
     body('name').optional().isString(),
     body('imagePath').optional().isString(),
     handleInputErrors,
-    updatePerson
+    updatePerson,
 );
 
 // Delete one person.
-router.delete('/person/:id',
+router.delete(
+    '/person/:id',
     // protect,
-    deletePerson
+    deletePerson,
 );
 
 /* Featured */

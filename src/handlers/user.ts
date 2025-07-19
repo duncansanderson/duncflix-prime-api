@@ -1,18 +1,18 @@
 import prisma from '../db';
-import { createJWT, hashPassword, comparePasswords } from '../modules/auth';
+import { comparePasswords, createJWT, hashPassword } from '../modules/auth';
 
 // Get all users.
-export const getUsers = async (req, res, next) => {
+export async function getUsers(req, res, next) {
     try {
         const users = await prisma.user.findMany();
         res.json({ users });
     } catch (error) {
         next(error);
     }
-};
+}
 
 // Create a user.
-export const createNewUser = async (req, res, next) => {
+export async function createNewUser(req, res, next) {
     try {
         const hash = await hashPassword(req.body.password);
 
@@ -25,17 +25,17 @@ export const createNewUser = async (req, res, next) => {
 
         const token = createJWT(user);
         res.json({ token });
-    } catch (error) {
+    } catch (error: any) {
         error.type = 'input';
         next(error);
     }
-};
+}
 
 // User sign in.
-export const signin = async (req, res, next) => {
+export async function signin(req, res, next) {
     try {
         const user = await prisma.user.findUnique({
-            where: { username: req.body.username }
+            where: { username: req.body.username },
         });
 
         const isValid = await comparePasswords(req.body.password, user.password);
@@ -49,6 +49,7 @@ export const signin = async (req, res, next) => {
         const token = createJWT(user);
         res.json({ token });
     } catch (error) {
+        console.log(error);
         next();
     }
-};
+}
