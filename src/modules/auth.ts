@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import env from '../../lib/env';
+import env from '../lib/env';
 
 export function comparePasswords(password, hash) {
     return bcrypt.compare(password, hash);
