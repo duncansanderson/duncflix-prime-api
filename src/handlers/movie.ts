@@ -1,34 +1,34 @@
-import prisma from "../db";
+import prisma from '../db';
 
 // Get all movies.
-export const getMovies = async (req, res, next) => {
+export async function getMovies(req, res, next) {
     try {
         const data = await prisma.movie.findMany();
         res.json({ data });
     } catch (error) {
         next(error);
     }
-};
+}
 
 // Get one movie.
-export const getOneMovie = async (req, res, next) => {
+export async function getOneMovie(req, res, next) {
     try {
         const data = await prisma.movie.findUnique({
             where: {
                 id: req.params.id,
-            }
+            },
         });
-        console.log(data)
+        console.log(data);
 
         res.json({ data });
-    } catch(error) {
+    } catch (error) {
         error.type = 'notFound';
         next(error);
     }
-};
+}
 
 // Create a movie.
-export const createNewMovie = async (req, res, next) => {
+export async function createNewMovie(req, res, next) {
     try {
         const data = await prisma.movie.create({
             data: {
@@ -55,13 +55,13 @@ export const createNewMovie = async (req, res, next) => {
         });
 
         res.json({ data });
-    } catch(error) {
-        next(error)
+    } catch (error) {
+        next(error);
     }
-};
+}
 
 // Update one movie.
-export const updateMovie = async (req, res, next) => {
+export async function updateMovie(req, res, next) {
     try {
         const data = await prisma.movie.update({
             where: {
@@ -71,33 +71,32 @@ export const updateMovie = async (req, res, next) => {
         });
 
         res.json({ data });
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
-};
+}
 
 // Delete one movie.
-export const deleteMovie = async (req, res, next) => {
+export async function deleteMovie(req, res, next) {
     try {
         const data = await prisma.movie.delete({
             where: {
-                id: req.params.id
+                id: req.params.id,
             },
         });
 
         res.json({ data });
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
-};
-
+}
 
 // Get featured movie and tv show.
-export const getFeatured = async (req, res, next) => {
+export async function getFeatured(req, res, next) {
     try {
         const all = await prisma.movie.findMany();
-        const movies = await all.filter((item) => item.type === 'movie');
-        const series = await all.filter((item) => item.type === 'series');
+        const movies = await all.filter(item => item.type === 'movie');
+        const series = await all.filter(item => item.type === 'series');
 
         const daysSinceEpoch = Math.floor(Date.now() / 86400000);
 
@@ -123,4 +122,4 @@ export const getFeatured = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-};
+}

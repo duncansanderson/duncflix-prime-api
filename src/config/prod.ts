@@ -1,3 +1,5 @@
+import env from '../lib/env';
+
 export default {
-    port: process.env.PORT,
-}
+    port: env.PORT,
+};

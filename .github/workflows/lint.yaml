@@ -1,0 +1,27 @@
+# eslint yaml/indent: 0
+name: Node.js CI
+
+on:
+  pull_request:
+    branches:
+      - develop-v2
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    environment: Build
+    env:
+      NODE_ENV: development
+      PORT: 3001,
+      STAGE: local,
+      DATABASE_URL: ${{ secrets.DATABASE_URL }},
+      JWT_SECRET: ${{ secrets.JWT_SECRET }},
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: npm install
+      - run: npm run lint
