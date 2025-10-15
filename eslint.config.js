@@ -1,7 +1,5 @@
 import antfu from '@antfu/eslint-config';
 
-// TODO: Add tailwindcss plugin when it supports v4.
-
 export default antfu({
     type: 'app',
     typescript: true,

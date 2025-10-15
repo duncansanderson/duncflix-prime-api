@@ -1,6 +1,11 @@
-import config from './config';
-import app from './server';
+import { serve } from '@hono/node-server';
 
-app.listen(config.port, () => {
-    console.log(`Hello from http://localhost:${config.port}`);
+import app from './app';
+import env from './env';
+
+serve({
+    fetch: app.fetch,
+    port: Number(env.PORT || 3000),
+}, (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`);
 });
