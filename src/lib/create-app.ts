@@ -9,7 +9,7 @@ import { pinoLog } from '@/middlewares/pino-log';
 export function createRouter() {
     return new OpenAPIHono<AppBindings>({
         strict: false,
-        defaultHook
+        defaultHook,
     });
 }
 

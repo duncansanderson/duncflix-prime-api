@@ -17,6 +17,7 @@
         "dotenv": "^17.2.3",
         "dotenv-expand": "^12.0.3",
         "drizzle-orm": "^0.44.6",
+        "drizzle-zod": "^0.8.3",
         "hono": "^4.9.12",
         "hono-pino": "^0.10.3",
         "pino": "^10.0.0",
