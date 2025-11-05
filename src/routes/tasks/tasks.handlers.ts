@@ -3,8 +3,8 @@ import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 import type { AppRouteHandler } from '@/lib/types';
 
-import db from '@/db';
-import { tasks } from '@/db/schema';
+import db from '@/db-old';
+import { tasks } from '@/db-old/schema';
 
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './tasks.routes';
 import { eq } from 'drizzle-orm';

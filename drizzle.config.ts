@@ -5,10 +5,9 @@ import env from '@/env';
 export default defineConfig({
     schema: './src/db/schema.ts',
     out: './src/db/migrations',
-    dialect: 'turso',
-    casing: 'snake_case',
+    dialect: 'postgresql',
     dbCredentials: {
-        url: env.DATABASE_URL,
-        authToken: env.DATABASE_AUTH_TOKEN,
+        url: env.DATABASE_URL!,
     },
 });
+

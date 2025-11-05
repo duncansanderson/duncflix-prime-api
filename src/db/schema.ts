@@ -1,34 +1,27 @@
-import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const tasks = sqliteTable('tasks', {
-    id: integer({ mode: 'number' })
-        .primaryKey({ autoIncrement: true }),
-    name: text().notNull(),
-    done: integer({ mode: 'boolean' })
-        .notNull()
-        .default(false),
-    createdAt: int()
-        .notNull()
-        .$default(() => Date.now()),
-    updatedAt: int()
-        .notNull()
-        .$default(() => Date.now())
-        .$onUpdate(() => Date.now()),
+export const userTable  = pgTable('users_table', {
+    id: serial('id').primaryKey(),
+    name: text('name').notNull(),
+    age: integer('age').notNull(),
+    email: text('email').notNull().unique(),
 });
 
-export const selectTasksSchema = createSelectSchema(tasks);
+export const postTable = pgTable('posts_table', {
+    id: serial('id').primaryKey(),
+    title: text('title').notNull(),
+    content: text('content').notNull(),
+    userId: integer('user_id')
+        .notNull()
+        .references(() => userTable.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at')
+        .notNull()
+        .$onUpdate(() => new Date),
+});
 
-export const insertTasksSchema = createInsertSchema(tasks, {
-    name: field => field.min(1).max(500),
-})
-    .required({
-        done: true,
-    })
-    .omit({
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-    });
+export type InsertUser = typeof userTable.$inferInsert;
+export type SelectUser = typeof userTable.$inferSelect;
 
-export const patchTasksSchema = insertTasksSchema.partial();
+export type InsertPost = typeof postTable.$inferInsert;
+export type SelectPost = typeof postTable.$inferSelect;
