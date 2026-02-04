@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
@@ -7,7 +8,6 @@ import db from '@/db-old';
 import { tasks } from '@/db-old/schema';
 
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './tasks.routes';
-import { eq } from 'drizzle-orm';
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
     const tasks = await db.query.tasks.findMany();
