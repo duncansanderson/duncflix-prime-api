@@ -1,6 +1,7 @@
-import config from './config';
-import app from './server';
+import env from './env.ts';
+import app from './server.ts';
 
-app.listen(config.port, () => {
-    console.log(`Hello from http://localhost:${config.port}`);
+app.listen(env.PORT, () => {
+    console.log(`Server running on port ${env.PORT}`);
+    console.log(`Environment: ${env.APP_STAGE}`);
 });
