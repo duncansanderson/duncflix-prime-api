@@ -66,7 +66,7 @@ let env: Env;
 
 try {
     env = envSchema.parse(process.env);
-} catch(error) {
+} catch(error: any) {
     if (error instanceof z.ZodError) {
         const tree = z.treeifyError(error);
 
