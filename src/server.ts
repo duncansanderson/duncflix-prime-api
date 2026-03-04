@@ -2,6 +2,7 @@ import { env, isDev, isTestEnv } from './env.ts';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import authRoutes from './routes/authRoutes.ts';
 import movieRoutes from './routes/movieRoutes.ts';
 import userRoutes from './routes/userRoutes.ts';
 import morgan from 'morgan';
@@ -31,6 +32,8 @@ app.get('/health', (req, res) => {
         service: 'Duncflix Prime API',
     });
 });
+
+app.use('/api/auth', authRoutes);
 
 app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);

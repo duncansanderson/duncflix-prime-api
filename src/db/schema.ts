@@ -21,4 +21,4 @@ export const users = pgTable('users', {
 });
 
 export const insertUserSchema = createInsertSchema(users);
-export const selectUserSchema = createSelectSchema(users);l
+export const selectUserSchema = createSelectSchema(users);
