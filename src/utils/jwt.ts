@@ -18,3 +18,14 @@ export const generateToken = async (payload: JwtPayload): Promise<string> => {
         .setExpirationTime(env.JWT_EXPIRES_IN || '7d')
         .sign(secretKey);
 };
+
+export async function verifyToken(token: string): Promise<JwtPayload> {
+    const secretKey = createSecretKey(token, 'utf-8');
+    const { payload } = await jwtVerify(token, secretKey);
+
+    return {
+        id: payload.id as string,
+        email: payload.email as string,
+        username: payload.username as string,
+    };
+}
