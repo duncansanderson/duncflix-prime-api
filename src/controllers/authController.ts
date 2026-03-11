@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
 import { generateToken } from '../utils/jwt.ts';
 import { db } from '../db/connection.ts';
