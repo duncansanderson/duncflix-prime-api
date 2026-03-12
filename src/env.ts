@@ -73,7 +73,7 @@ try {
         console.error('Invalid environment variables:');
         console.error(JSON.stringify(tree, null, 2));
 
-        error.errors.forEach((err) => {
+        error.issues.forEach((err) => {
             const path = err.path.join('.');
             console.error(`  ${path}: ${err.message}`);
         });

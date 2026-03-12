@@ -1,11 +1,12 @@
-import { env, isDev, isTestEnv } from './env.ts';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import morgan from 'morgan';
+import { env, isDev, isTestEnv } from './env.ts';
+import { errorHandler, notFound } from './middleware/errorHandler.ts';
 import authRoutes from './routes/authRoutes.ts';
 import movieRoutes from './routes/movieRoutes.ts';
 import userRoutes from './routes/userRoutes.ts';
-import morgan from 'morgan';
 
 const app = express();
 
@@ -16,7 +17,6 @@ app.use(
         credentials: true,
     }),
 );
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -24,6 +24,9 @@ app.use(
         skip: () => isTestEnv(),
     }),
 );
+
+app.use(notFound);
+app.use(errorHandler);x
 
 app.get('/health', (req, res) => {
     res.status(200).json({
