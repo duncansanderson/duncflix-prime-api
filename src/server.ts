@@ -25,9 +25,6 @@ app.use(
     }),
 );
 
-app.use(notFound);
-app.use(errorHandler);x
-
 app.get('/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
@@ -41,6 +38,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);
 
+app.use(notFound);
+app.use(errorHandler);
 export { app };
 
 export default app;
