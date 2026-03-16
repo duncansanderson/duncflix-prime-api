@@ -9,5 +9,7 @@
         "allowImportingTsExtensions": true,
         "types": ["vitest/globals"],
         "esModuleInterop": true,
+        "rootDir": "./",
+        "skipLibCheck": true
     }
 }
