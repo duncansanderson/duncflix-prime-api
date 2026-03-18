@@ -3,7 +3,7 @@ import type { AuthenticatedRequest } from '../middleware/auth.ts';
 import { eq } from 'drizzle-orm';
 import { comparePassword, hashPassword } from '../utils/password.ts';
 import { db } from '../db/connection.ts';
-import { users } from '../db/schema.ts';
+import { users } from '../db/schema/index.ts';
 
 export async function getProfile(req: AuthenticatedRequest, res: Response) {
     try {

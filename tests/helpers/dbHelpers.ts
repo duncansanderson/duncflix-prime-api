@@ -1,5 +1,5 @@
 import { db } from '../../src/db/connection.ts';
-import { users } from '../../src/db/schema.ts';
+import { users } from '../../src/db/schema/index.ts';
 import { hashPassword } from '../../src/utils/password.ts';
 import { generateToken } from '../../src/utils/jwt.ts';
 

@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { execSync } from 'child_process';
 import { db } from '../../src/db/connection.ts';
-import { users } from '../../src/db/schema.ts';
+import { users } from '../../src/db/schema/index.ts';
 import env from '../../src/env.ts';
 
 export default async function setup() {
@@ -14,7 +14,7 @@ export default async function setup() {
         console.log('Pushing schema using drizzle-kit...');
 
         execSync(
-            `npx drizzle-kit push --url="${env.DATABASE_URL}" --schema="./src/db/schema.ts" --dialect="postgresql"`,
+            `npx drizzle-kit push --url="${env.DATABASE_URL}" --schema="./src/db/schema/index.ts" --dialect="postgresql"`,
             {
                 stdio: 'inherit',
                 cwd: process.cwd(),

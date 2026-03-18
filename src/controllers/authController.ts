@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 import { generateToken } from '../utils/jwt.ts';
-import { db } from '../db/connection.ts';
-import { users } from '../db/schema.ts';
 import { comparePassword, hashPassword } from '../utils/password.ts';
+import { db } from '../db/connection.ts';
+import { users } from '../db/schema/index.ts';
 
 export const register = async (req: Request, res: Response) => {
     try {

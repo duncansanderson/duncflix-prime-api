@@ -1,5 +1,5 @@
 import { db } from './connection.ts';
-import { users } from './schema.ts';
+import { persons, users } from './schema/index.ts';
 import { hashPassword } from '../utils/password.ts';
 
 async function seed() {
@@ -8,11 +8,13 @@ async function seed() {
     try {
         // Step 1: Clear existing data.
         console.log('Clearing existing data...');
+        await db.delete(persons);
         await db.delete(users);
 
         // Step 2: Create foundation data.
         console.log('Creating demo users...');
-        const hashedPassword = await hashPassword('demo123');
+        const rawPassword = 'demo123';
+        const hashedPassword = await hashPassword(rawPassword);
 
         const [demoUser] = await db
             .insert(users)
@@ -23,11 +25,26 @@ async function seed() {
             })
             .returning()
 
+        console.log('Creating demo person...');
+        const [demoPerson] = await db
+            .insert(persons)
+            .values({
+                userId: demoUser.id,
+                biography: 'demo bio',
+                birthday: '2025-04-12',
+                deathday: '2026-04-12',
+                imdbId: 'demoId',
+                name: 'Bob McBoberson',
+                placeOfBirth: 'demoland',
+                profilePath: 'path/to/profile.jpg',
+            })
+            .returning();
+
         console.log('✅ Database successfully seeded!');
         console.log('\n 📊 Seed summary:');
         console.log('\n 🔐 Login details:');
-        console.log('Email: demo@example.com');
-        console.log('Password: demo123');
+        console.log(`Email: ${demoUser.email}`);
+        console.log(`Password: ${rawPassword}`);
     } catch (error) {
         console.error('❌ Seed failed:', error);
         throw error;
