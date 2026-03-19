@@ -25,7 +25,6 @@ export const persons = pgTable('persons', {
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-
 export const personsInsertSchema = createInsertSchema(persons, {
     userId: (schema) => schema.optional(),
     birthday: (schema) => schema

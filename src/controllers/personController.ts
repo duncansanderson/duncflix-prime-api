@@ -1,4 +1,4 @@
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 import type { AuthenticatedRequest } from '../middleware/auth.ts';
 import db from '../db/connection.ts';
 import { persons } from '../db/schema/index.ts';
@@ -15,7 +15,6 @@ export async function createPerson(req: AuthenticatedRequest, res: Response) {
             profilePath,
         } = req.body;
         const userId = req.user!.id;
-        console.log('persons userId', req.user.id)
 
         const [newPerson] = await db
             .insert(persons)
@@ -43,3 +42,22 @@ export async function createPerson(req: AuthenticatedRequest, res: Response) {
         res.status(500).json({ error: 'Failed to create person' });
     }
 }
+
+export async function getAllPersons(req: Request, res: Response) {
+    try {
+        const allPersons = await db
+            .select()
+            .from(persons);
+
+        res.status(200).json({
+            persons: allPersons,
+        });
+    } catch (error) {
+        console.error('Get all persons error:', error);
+        res.status(500).json({ error: 'Failed to get all persons' });
+    }
+}
+// Get person
+// Get all persons
+// Update person
+// Delete person
