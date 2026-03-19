@@ -47,7 +47,7 @@ export async function updateProfile(req: AuthenticatedRequest, res: Response) {
             .returning({
                 id: users.id,
                 email: users.email,
-                username: username,
+                username: users.username,
                 updatedAt: users.updatedAt,
             });
 
@@ -76,7 +76,7 @@ export async function changePassword(req: AuthenticatedRequest, res: Response) {
         }
 
         const isValidPassword = await comparePassword(
-            currentPassword, newPassword
+            currentPassword, user.password
         );
 
         if (!isValidPassword) {
