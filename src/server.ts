@@ -6,6 +6,7 @@ import { env, isDev, isTestEnv } from './env.ts';
 import { errorHandler, notFound } from './middleware/errorHandler.ts';
 import authRoutes from './routes/authRoutes.ts';
 import movieRoutes from './routes/movieRoutes.ts';
+import personRoutes from './routes/personRoutes.ts';
 import userRoutes from './routes/userRoutes.ts';
 
 const app = express();
@@ -58,6 +59,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 
 app.use('/api/movies', movieRoutes);
+app.use('/api/persons', personRoutes)
 app.use('/api/users', userRoutes);
 
 app.use(notFound);

@@ -20,7 +20,7 @@ export const generateToken = async (payload: JwtPayload): Promise<string> => {
 };
 
 export async function verifyToken(token: string): Promise<JwtPayload> {
-    const secretKey = createSecretKey(token, 'utf-8');
+    const secretKey = createSecretKey(env.JWT_SECRET, 'utf-8');
     const { payload } = await jwtVerify(token, secretKey);
 
     return {

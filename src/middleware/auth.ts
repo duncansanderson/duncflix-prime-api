@@ -10,7 +10,7 @@ export async function authenticateToken(
     res: Response,
     next: NextFunction,
 ) {
-    try{
+    try {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
 
