@@ -2,7 +2,6 @@ import request from 'supertest';
 import { afterEach } from 'vitest';
 import app from '../src/server.ts'
 import { cleanupDatabase, createTestUser } from './helpers/dbHelpers.ts';
-import e from 'express';
 
 describe('User endpoints', () => {
     afterEach(async() => {
