@@ -78,4 +78,24 @@ describe('Person endpoints', () => {
             expect(response.body.persons.length).toBeGreaterThan(0);
         });
     });
+
+    describe("GET /api/persons/:id", () => {
+        it('should return on person that matches the id', async() => {
+            const { user } = await createTestUser();
+            const { id } = await createTestPersons(user.id);
+
+            const response = await request(app)
+                .get(`/api/persons/${id}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body.id).toBe(id);
+        });
+
+        it('should return 404 if person not found', async() => {
+            const response = await request(app)
+                .get('/api/persons/5db57769-162f-46ad-b92e-6307b6850029');
+
+            expect(response.status).toBe(404);
+        });
+    })
 })
