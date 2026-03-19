@@ -2,6 +2,7 @@ import type { Response, Request } from 'express';
 import type { AuthenticatedRequest } from '../middleware/auth.ts';
 import db from '../db/connection.ts';
 import { persons } from '../db/schema/index.ts';
+import { eq } from 'drizzle-orm';
 
 export async function createPerson(req: AuthenticatedRequest, res: Response) {
     try {
@@ -57,7 +58,38 @@ export async function getAllPersons(req: Request, res: Response) {
         res.status(500).json({ error: 'Failed to get all persons' });
     }
 }
+
 // Get person
-// Get all persons
+export async function getOnePerson(req: Request<{id: string}>, res: Response) {
+    try {
+        const { id } = req.params;
+        console.log('id', id);
+
+        const [person] = await db
+            .select({
+                id: persons.id,
+                biography: persons.biography,
+                birthday: persons.birthday,
+                deathday: persons.deathday,
+                imdbId: persons.imdbId,
+                name: persons.name,
+                placeOfBirth: persons.placeOfBirth,
+                profilePath: persons.profilePath,
+            })
+            .from(persons)
+            .where(eq(persons.id, id));
+
+        if (!person) {
+            res.status(404).json({ error: 'Person not found '});
+        }
+
+        res.status(200).json({
+            ...person,
+        });
+    } catch (error) {
+        console.error('Get one person error:', error);
+        res.status(500).json({ error: 'Failed to get one person' });
+    }
+}
 // Update person
 // Delete person

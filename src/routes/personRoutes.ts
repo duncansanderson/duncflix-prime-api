@@ -1,15 +1,23 @@
 import { Router } from 'express';
+import { z } from 'zod';
 import { authenticateToken } from '../middleware/auth.ts';
-import { validateBody } from '../middleware/validation.ts';
+import { validateBody, validateParams } from '../middleware/validation.ts';
 import { personsInsertSchema } from '../db/schema/persons.ts';
-import { createPerson, getAllPersons} from '../controllers/personController.ts';
+import {
+    createPerson,
+    getAllPersons,
+    getOnePerson,
+} from '../controllers/personController.ts';
 
 const router = Router();
 
-// router.use(authenticateToken);
+const uuidSchema = z.object({
+  id: z.uuid('Invalid person ID format'),
+})
 
 // Routes
 router.get('/', getAllPersons);
+router.get('/:id', validateParams(uuidSchema), getOnePerson);
 router.post('/',
     authenticateToken,
     validateBody(personsInsertSchema),
