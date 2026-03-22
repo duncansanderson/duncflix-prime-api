@@ -97,5 +97,71 @@ describe('Person endpoints', () => {
 
             expect(response.status).toBe(404);
         });
-    })
+    });
+
+    describe('PUT /api/persons/:id', () => {
+        it('should successfully update a person', async() => {
+            const { user, token } = await createTestUser();
+            const { id } = await createTestPersons(user.id);
+
+            const newName = 'Ted McTederson';
+
+            const response = await request(app)
+                .put(`/api/persons/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    name: newName,
+                });
+
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty('message', 'Person updated successfully');
+            expect(response.body.person.name).toBeDefined();
+            expect(response.body.person.name).toBe(newName);
+        });
+
+        it('should return 404 when person not found', async() => {
+            const { user, token } = await createTestUser();
+            await createTestPersons(user.id);
+
+            const newName = 'Ted McTederson';
+
+            const response = await request(app)
+                .put('/api/persons/5db57769-162f-46ad-b92e-6307b6850029')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    name: newName,
+                });
+
+            expect(response.status).toBe(404);
+        });
+
+        it('should require authentication', async() => {
+            const { user } = await createTestUser();
+            const { id } = await createTestPersons(user.id);
+
+            const newName = 'Ted McTederson';
+
+            const response = await request(app)
+                .put(`/api/persons/${id}`)
+                .send({
+                    name: newName,
+                });
+
+            expect(response.status).toBe(401);
+        });
+
+        it('should validate input data', async() => {
+            const { user, token } = await createTestUser();
+            const { id } = await createTestPersons(user.id);
+
+            const response = await request(app)
+                .put(`/api/persons/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    birthday: '11 August 1956',
+                });
+
+            expect(response.status).toBe(400);
+        });
+    });
 })
