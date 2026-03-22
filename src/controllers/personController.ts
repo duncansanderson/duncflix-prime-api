@@ -63,7 +63,6 @@ export async function getAllPersons(req: Request, res: Response) {
 export async function getOnePerson(req: Request<{id: string}>, res: Response) {
     try {
         const { id } = req.params;
-        console.log('id', id);
 
         const [person] = await db
             .select({
@@ -81,6 +80,7 @@ export async function getOnePerson(req: Request<{id: string}>, res: Response) {
 
         if (!person) {
             res.status(404).json({ error: 'Person not found '});
+            return;
         }
 
         res.status(200).json({
@@ -91,5 +91,57 @@ export async function getOnePerson(req: Request<{id: string}>, res: Response) {
         res.status(500).json({ error: 'Failed to get one person' });
     }
 }
-// Update person
+
+export async function updatePerson(req: Request<{id: string}>, res: Response) {
+    try {
+        const { id } = req.params;
+        const {
+            biography,
+            birthday,
+            deathday,
+            imdbId,
+            name,
+            placeOfBirth,
+            profilePath,
+        } = req.body;
+
+        const [updatedPerson] = await db
+            .update(persons)
+            .set({
+                biography,
+                birthday,
+                deathday,
+                imdbId,
+                name,
+                placeOfBirth,
+                profilePath,
+                updatedAt: new Date(),
+            })
+            .where(eq(persons.id, id))
+            .returning({
+                id: persons.id,
+                biography: persons.biography,
+                birthday: persons.birthday,
+                deathday: persons.deathday,
+                imdbId: persons.imdbId,
+                name: persons.name,
+                placeOfBirth: persons.placeOfBirth,
+                profilePath: persons.profilePath,
+                updatedAt: persons.updatedAt,
+            });
+
+        if (!updatedPerson) {
+            res.status(404).json({ error: 'Person not found '});
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Person updated successfully',
+            person: updatedPerson,
+        });
+    } catch (error) {
+        console.error('Update person error:', error);
+        res.status(500).json({ error: 'Failed to update person' });
+    }
+}
 // Delete person

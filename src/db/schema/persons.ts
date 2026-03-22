@@ -6,7 +6,7 @@ import {
     varchar,
 } from 'drizzle-orm/pg-core';
 import { z } from 'zod';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { users } from '../schema/index.ts';
 
 export const persons = pgTable('persons', {
@@ -40,6 +40,31 @@ export const personsInsertSchema = createInsertSchema(persons, {
     name: (schema) => schema.max(255, 'Name must be less than 255 characters'),
     placeOfBirth: (schema) => schema.max(255, 'Name must be less than 255 characters'),
     profilePath: (schema) => schema.max(255, 'Name must be less than 255 characters'),
+});
+
+export const personsUpdateSchema = createUpdateSchema(persons, {
+    userId: (schema) => schema.optional(),
+    birthday: (schema) => schema
+        .regex(
+            /^(\d{4})-(0[1-9]|1[0-2]|[1-9])-([1-9]|0[1-9]|[1-2]\d|3[0-1])$/,
+            'Birthday must be in the format `yyyy-mm-dd`',
+        )
+        .optional(),
+    deathday: (schema) => schema
+        .regex(
+            /^(\d{4})-(0[1-9]|1[0-2]|[1-9])-([1-9]|0[1-9]|[1-2]\d|3[0-1])$/,
+            'Birthday must be in the format `yyyy-mm-dd`',
+        )
+        .optional(),
+    name: (schema) => schema
+        .max(255, 'Name must be less than 255 characters')
+        .optional(),
+    placeOfBirth: (schema) => schema
+        .max(255, 'Name must be less than 255 characters')
+        .optional(),
+    profilePath: (schema) => schema
+        .max(255, 'Name must be less than 255 characters')
+        .optional(),
 });
 
 export type PersonInsert = z.infer<typeof personsInsertSchema>;
