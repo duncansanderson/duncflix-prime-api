@@ -89,35 +89,37 @@ describe('Title endpoints', () => {
         });
     });
 
-    describe('GET /api/titles/movies', () => {
+    describe('GET /api/titles/:type', () => {
         it('should return all movies', async() => {
+            const type = 'movie';
             const { user } = await createTestUser();
             await createTestTitle(user.id, {
-                type: 'movie'
+                type,
             });
 
             const response = await request(app)
-                .get('/api/titles/movies')
+                .get(`/api/titles/${type}`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.titles)).toBe(true);
             expect(response.body.titles.length).toBeGreaterThan(0);
-            expect(response.body.titles[0].type).toBe('movie');
+            expect(response.body.titles[0].type).toBe(type);
         });
-    });
 
-    describe('GET /api/titles/series', () => {
         it('should return all series', async() => {
+            const type = 'series';
             const { user } = await createTestUser();
-            await createTestTitle(user.id);
+            await createTestTitle(user.id, {
+                type,
+            });
 
             const response = await request(app)
-                .get('/api/titles/series')
+                .get(`/api/titles/${type}`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.titles)).toBe(true);
             expect(response.body.titles.length).toBeGreaterThan(0);
-            expect(response.body.titles[0].type).toBe('series');
+            expect(response.body.titles[0].type).toBe(type);
         });
     });
 });

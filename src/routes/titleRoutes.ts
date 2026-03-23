@@ -3,8 +3,6 @@ import { authenticateToken } from '../middleware/auth.ts';
 import { validateBody } from '../middleware/validation.ts';
 import {
     createTitle,
-    getAllMovies,
-    getAllSeries,
     getAllTitles,
 } from '../controllers/titleController.ts';
 import { titlesInsertSchema } from '../db/schema/titles.ts';
@@ -17,8 +15,7 @@ router.post('/',
     createTitle,
 );
 router.get('/', getAllTitles);
-router.get('/movies', getAllMovies);
-router.get('/series', getAllSeries);
+router.get('/:type', getAllTitles);
 
 // getAll titles
 // getAll movies
