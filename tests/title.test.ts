@@ -1,7 +1,12 @@
 import request from 'supertest';
 import { afterEach } from 'vitest';
 import app from '../src/server.ts';
-import { cleanupDatabase, createTestPersons, createTestUser } from './helpers/dbHelpers.ts';
+import {
+    cleanupDatabase,
+    createTestPersons,
+    createTestTitle,
+    createTestUser,
+} from './helpers/dbHelpers.ts';
 
 describe('Title endpoints', () => {
     afterEach(() => {
@@ -67,6 +72,52 @@ describe('Title endpoints', () => {
                 });
 
             expect(response.status).toBe(400);
+        });
+    });
+
+    describe('GET /api/titles', () => {
+        it('should return all titles', async() => {
+            const { user } = await createTestUser();
+            await createTestTitle(user.id);
+
+            const response = await request(app)
+                .get('/api/titles')
+
+            expect(response.status).toBe(200);
+            expect(Array.isArray(response.body.titles)).toBe(true);
+            expect(response.body.titles.length).toBeGreaterThan(0);
+        });
+    });
+
+    describe('GET /api/titles/movies', () => {
+        it('should return all movies', async() => {
+            const { user } = await createTestUser();
+            await createTestTitle(user.id, {
+                type: 'movie'
+            });
+
+            const response = await request(app)
+                .get('/api/titles/movies')
+
+            expect(response.status).toBe(200);
+            expect(Array.isArray(response.body.titles)).toBe(true);
+            expect(response.body.titles.length).toBeGreaterThan(0);
+            expect(response.body.titles[0].type).toBe('movie');
+        });
+    });
+
+    describe('GET /api/titles/series', () => {
+        it('should return all series', async() => {
+            const { user } = await createTestUser();
+            await createTestTitle(user.id);
+
+            const response = await request(app)
+                .get('/api/titles/series')
+
+            expect(response.status).toBe(200);
+            expect(Array.isArray(response.body.titles)).toBe(true);
+            expect(response.body.titles.length).toBeGreaterThan(0);
+            expect(response.body.titles[0].type).toBe('series');
         });
     });
 });

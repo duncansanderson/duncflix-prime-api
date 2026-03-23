@@ -1,6 +1,9 @@
 import { db } from '../../src/db/connection.ts';
-import { users } from '../../src/db/schema/index.ts';
-import { persons } from '../../src/db/schema/index.ts';
+import {
+    persons,
+    titles,
+    users,
+} from '../../src/db/schema/index.ts';
 import { hashPassword } from '../../src/utils/password.ts';
 import { generateToken } from '../../src/utils/jwt.ts';
 
@@ -63,6 +66,57 @@ export async function createTestPersons(userId, personData: Partial<{
         .returning();
 
     return person;
+}
+
+type Format = 'digital' | 'dvd';
+type Type = 'movie' | 'series';
+
+export async function createTestTitle(userId, titleData: Partial<{
+    availableSeasons: number[],
+    backdropPath: string,
+    episodeRunTime: number[],
+    format: Format[];
+    genre: string[];
+    lastAirDate: string;
+    name: string;
+    numberOfEpisodes: number;
+    numberOfSeasons: number;
+    overview: string;
+    posterPath: string;
+    tagline: string;
+    type: Type;
+    voteAverage: number;
+    voteCount: number;
+}> = {}) {
+    const defaultData = {
+        availableSeasons: [1, 2, 5],
+        backdropPath: '/path/to/backdrop',
+        episodeRunTime: [60],
+        firstAirDate: '2024-01-04',
+        format: ['digital', 'dvd'] as Format[],
+        genre: ['comedy', 'drama'],
+        lastAirDate: '2025-01-12',
+        name: 'TV Series Demo',
+        numberOfEpisodes: 200,
+        numberOfSeasons: 4,
+        overview: 'Summary of the series',
+        posterPath: '/path/to/poster',
+        tagline: 'Series tagline',
+        type: 'series' as Type,
+        voteAverage: 3.2,
+        voteCount: 145,
+        ...titleData,
+    };
+
+    const [title] = await db
+        .insert(titles)
+        .values({
+            userId,
+            ...defaultData,
+        })
+        .returning();
+
+    return title;
 }
 
 export async function cleanupDatabase() {
