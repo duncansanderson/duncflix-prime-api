@@ -1,8 +1,8 @@
 import type { Response, Request } from 'express';
 import type { AuthenticatedRequest } from '../middleware/auth.ts';
+import { eq } from 'drizzle-orm';
 import db from '../db/connection.ts';
 import { persons } from '../db/schema/index.ts';
-import { eq } from 'drizzle-orm';
 
 export async function createPerson(req: AuthenticatedRequest, res: Response) {
     try {
