@@ -1,5 +1,5 @@
 import { db } from './connection.ts';
-import { persons, users } from './schema/index.ts';
+import { persons, titles, users } from './schema/index.ts';
 import { hashPassword } from '../utils/password.ts';
 
 async function seed() {
@@ -8,6 +8,7 @@ async function seed() {
     try {
         // Step 1: Clear existing data.
         console.log('Clearing existing data...');
+        await db.delete(titles);
         await db.delete(persons);
         await db.delete(users);
 
@@ -37,6 +38,50 @@ async function seed() {
                 name: 'Bob McBoberson',
                 placeOfBirth: 'demoland',
                 profilePath: 'path/to/profile.jpg',
+            })
+            .returning();
+
+        console.log('Creating demo movie title...');
+        const [demoMovieTitle] = await db
+            .insert(titles)
+            .values({
+                userId: demoUser.id,
+                backdropPath: '/path/to/backdrop',
+                format: ['digital'],
+                genre: ['horror', 'crime'],
+                overview: 'Something about the plot of the movie',
+                posterPath: '/path/to/poster',
+                releaseDate: '2025-02-01',
+                runtime: 123,
+                tagline: 'Movie tagline',
+                title: 'Movie title',
+                type: 'movie',
+                voteAverage: 4.3,
+                voteCount: 12,
+            })
+            .returning();
+
+        console.log('Creating demo series title...');
+        const [demoSeriesTitle] = await db
+            .insert(titles)
+            .values({
+                userId: demoUser.id,
+                availableSeasons: [1, 2, 5],
+                backdropPath: '/path/to/backdrop',
+                episodeRunTime: [60],
+                firstAirDate: '2024-01-04',
+                format: ['digital', 'dvd'],
+                genre: ['comedy', 'drama'],
+                lastAirDate: '2025-01-12',
+                numberOfEpisodes: 200,
+                numberOfSeasons: 4,
+                overview: 'Summary of the series',
+                posterPath: '/path/to/poster',
+                tagline: 'Series tagline',
+                title: 'TV Series',
+                type: 'series',
+                voteAverage: 3.2,
+                voteCount: 145,
             })
             .returning();
 
