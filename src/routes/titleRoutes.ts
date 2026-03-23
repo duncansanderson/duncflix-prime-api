@@ -1,7 +1,12 @@
 import { Router } from 'express';
 import { authenticateToken } from '../middleware/auth.ts';
 import { validateBody } from '../middleware/validation.ts';
-import { createTitle } from '../controllers/titleController.ts';
+import {
+    createTitle,
+    getAllMovies,
+    getAllSeries,
+    getAllTitles,
+} from '../controllers/titleController.ts';
 import { titlesInsertSchema } from '../db/schema/titles.ts';
 
 const router = Router();
@@ -11,8 +16,10 @@ router.post('/',
     validateBody(titlesInsertSchema),
     createTitle,
 );
+router.get('/', getAllTitles);
+router.get('/movies', getAllMovies);
+router.get('/series', getAllSeries);
 
-// Create title
 // getAll titles
 // getAll movies
 // getAll series

@@ -1,5 +1,6 @@
 import type { Response, Request } from 'express';
 import type { AuthenticatedRequest } from '../middleware/auth.ts';
+import { eq } from 'drizzle-orm';
 import db from '../db/connection.ts';
 import { titles } from '../db/schema/titles.ts';
 
@@ -66,5 +67,52 @@ export async function createTitle(req: AuthenticatedRequest, res: Response) {
     } catch (error) {
         console.error('Title creation error:', error);
         res.status(500).json({ message: 'Failed to create title' });
+    }
+}
+
+export async function getAllTitles(req: Request, res: Response) {
+    try {
+        const allTitles = await db
+            .select()
+            .from(titles);
+
+        res.status(200).json({
+            titles: allTitles,
+        });
+    } catch (error) {
+        console.error('Get all titles error:', error);
+        res.status(500).json({ message: 'Failed to get all titles.' });
+    }
+}
+
+export async function getAllMovies(req: Request, res: Response) {
+    try {
+        const allTitles = await db
+            .select()
+            .from(titles)
+            .where(eq(titles.type, 'movie'));
+
+        res.status(200).json({
+            titles: allTitles,
+        });
+    } catch (error) {
+        console.error('Get all movies error:', error);
+        res.status(500).json({ message: 'Failed to get all movies.' });
+    }
+}
+
+export async function getAllSeries(req: Request, res: Response) {
+    try {
+        const allTitles = await db
+            .select()
+            .from(titles)
+            .where(eq(titles.type, 'series'));
+
+        res.status(200).json({
+            titles: allTitles,
+        });
+    } catch (error) {
+        console.error('Get all series error:', error);
+        res.status(500).json({ message: 'Failed to get all series.' });
     }
 }
