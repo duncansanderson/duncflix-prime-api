@@ -144,4 +144,26 @@ export async function updatePerson(req: Request<{id: string}>, res: Response) {
         res.status(500).json({ error: 'Failed to update person' });
     }
 }
-// Delete person
+
+export async function deletedPerson(req: Request<{id: string}>, res: Response) {
+    try {
+        const { id } = req.params;
+
+        const [deletedPerson] = await db
+            .delete(persons)
+            .where(eq(persons.id, id))
+            .returning();
+
+        if (!deletedPerson) {
+            res.status(404).json({ error: 'Person not found '});
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Person deleted successfully',
+        });
+    } catch (error) {
+        console.error('Deleted person error', error);
+        res.status(500).json({ error: 'Failed to deleted person'});
+    }
+}

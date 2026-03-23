@@ -8,6 +8,7 @@ import {
     getAllPersons,
     getOnePerson,
     updatePerson,
+    deletedPerson,
 } from '../controllers/personController.ts';
 
 const router = Router();
@@ -30,5 +31,10 @@ router.put('/:id',
     validateBody(personsUpdateSchema),
     updatePerson,
 );
+router.delete('/:id',
+    authenticateToken,
+    validateParams(uuidSchema),
+    deletedPerson,
+)
 
 export default router;
