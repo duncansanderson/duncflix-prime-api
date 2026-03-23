@@ -79,7 +79,7 @@ describe('Person endpoints', () => {
         });
     });
 
-    describe("GET /api/persons/:id", () => {
+    describe('GET /api/persons/:id', () => {
         it('should return on person that matches the id', async() => {
             const { user } = await createTestUser();
             const { id } = await createTestPersons(user.id);
@@ -162,6 +162,41 @@ describe('Person endpoints', () => {
                 });
 
             expect(response.status).toBe(400);
+        });
+    });
+
+    describe('DELETE /api/persons/:id', () => {
+        it('should successfully update a person', async() => {
+            const { user, token } = await createTestUser();
+            const { id } = await createTestPersons(user.id);
+
+            const response = await request(app)
+                .delete(`/api/persons/${id}`)
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty('message', 'Person deleted successfully');
+        });
+
+        it('should return 404 when person not found', async() => {
+            const { user, token } = await createTestUser();
+            await createTestPersons(user.id);
+
+            const response = await request(app)
+                .delete('/api/persons/5db57769-162f-46ad-b92e-6307b6850029')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).toBe(404);
+        });
+
+        it('should require authentication', async() => {
+            const { user } = await createTestUser();
+            const { id } = await createTestPersons(user.id);
+
+            const response = await request(app)
+                .delete(`/api/persons/${id}`);
+
+            expect(response.status).toBe(401);
         });
     });
 })
