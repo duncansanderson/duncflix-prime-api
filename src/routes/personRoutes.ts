@@ -15,7 +15,7 @@ const router = Router();
 
 const uuidSchema = z.object({
   id: z.uuid('Invalid person ID format'),
-})
+});
 
 // Routes
 router.get('/', getAllPersons);
