@@ -1,3 +1,4 @@
+import type { TitleFormat, TitleType } from '../../types/index.ts';
 import { db } from '../../src/db/connection.ts';
 import {
     persons,
@@ -68,14 +69,11 @@ export async function createTestPersons(userId, personData: Partial<{
     return person;
 }
 
-type Format = 'digital' | 'dvd';
-type Type = 'movie' | 'series';
-
 export async function createTestTitle(userId, titleData: Partial<{
     availableSeasons: number[],
     backdropPath: string,
     episodeRunTime: number[],
-    format: Format[];
+    format: TitleFormat[];
     genre: string[];
     lastAirDate: string;
     name: string;
@@ -84,7 +82,7 @@ export async function createTestTitle(userId, titleData: Partial<{
     overview: string;
     posterPath: string;
     tagline: string;
-    type: Type;
+    type: TitleType;
     voteAverage: number;
     voteCount: number;
 }> = {}) {
@@ -93,7 +91,7 @@ export async function createTestTitle(userId, titleData: Partial<{
         backdropPath: '/path/to/backdrop',
         episodeRunTime: [60],
         firstAirDate: '2024-01-04',
-        format: ['digital', 'dvd'] as Format[],
+        format: ['digital', 'dvd'] as TitleFormat[],
         genre: ['comedy', 'drama'],
         lastAirDate: '2025-01-12',
         name: 'TV Series Demo',
@@ -102,7 +100,7 @@ export async function createTestTitle(userId, titleData: Partial<{
         overview: 'Summary of the series',
         posterPath: '/path/to/poster',
         tagline: 'Series tagline',
-        type: 'series' as Type,
+        type: 'series' as TitleType,
         voteAverage: 3.2,
         voteCount: 145,
         ...titleData,

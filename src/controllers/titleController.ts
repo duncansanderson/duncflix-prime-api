@@ -1,5 +1,6 @@
 import type { Response, Request } from 'express';
 import type { AuthenticatedRequest } from '../middleware/auth.ts';
+import type { TitleType } from '../../types/index.ts';
 import { eq } from 'drizzle-orm';
 import db from '../db/connection.ts';
 import { titles } from '../db/schema/titles.ts';
@@ -70,9 +71,7 @@ export async function createTitle(req: AuthenticatedRequest, res: Response) {
     }
 }
 
-type Type = 'movie' | 'series'
-
-export async function getAllTitles(req: Request<{type: Type}>, res: Response) {
+export async function getAllTitles(req: Request<{type: TitleType}>, res: Response) {
     try {
         const { type } = req.params
 
